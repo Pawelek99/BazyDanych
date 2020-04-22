@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <script defer src="scripts/script.js"></script>
+    <title>Bazy Danych</title>
+</head>
+
+<body>
+    <h1 class="centered">Trips tutors</h1>
+    <table>
+        <head>
+            <th>Name</th>
+            <th>Last name</th>
+            <th>Contact number</th>
+            <th>Action</th>
+        </head>
+        <% tutors.forEach(function(tutor) { %>
+            <tr>
+                <td><%= tutor.name %></td>
+                <td><%= tutor.last_name %></td>
+                <td><%= tutor.contact_number %></td>
+                <td><button class="remove" onclick="removeTutor(<%= tutor.id %>)">Remove</button></td>
+            </tr>
+        <% }); %>
+        <tr>
+            <form action="/tutor" method="POST" id="tutor-form">
+                <td><input type="text" name="name" placeholder="Jan"></td>
+                <td><input type="text" name="last_name" placeholder="Kowalski"></td>
+                <td><input type="text" name="contact_number" placeholder="123666321"></td>
+                <td><input type="submit" value="Add"></td>
+            </form>
+        </tr>
+    </table>
+
+    <h1 class="centered">Schools</h1>
+    <table>
+        <head>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Classes</th>
+            <th>Action</th>
+        </head>
+        <% schools.forEach(function(school) { %>
+            <tr>
+                <td><%= school.name %></td>
+                <td><%= school.address %></td>
+                <td><% school.classes.forEach(function(c, i) { %><%= c.name %>, <%= c.students_quantity %><% if (i != school.classes.length - 1) { %>; <% }}); %></td>
+                <td><button class="remove" onclick="removeSchool(<%= school.id %>)">Remove</button></td>
+            </tr>
+        <% }); %>
+        <tr>
+            <form action="/school" method="POST" id="school-form">
+                <td><input type="text" name="name" placeholder="Szkoła na różanej"></td>
+                <td><input type="text" name="address" placeholder="Różana"></td>
+                <td><input type="text" name="classes" placeholder="[nazwa], [liczba uczniów];..."></td>
+                <td><input type="submit" value="Add"></td>
+            </form>
+        </tr>
+    </table>
+
+    <h1 class="centered">School trips list</h1>
+    <div class="grid">
+        <% trips.forEach(function(trip) { %>
+        <div onclick="remove(<%= trip.id %>)" class="card removable">
+            <div class="title">
+                <p class="trip-title"><%= trip.name %></p>
+                <p class="trip-cost"><%= trip.cost %> zł</p>
+            </div>
+            <p class="trip-organizer"><%= trip.organizer %></p>
+            <p class="trip-date"><%= trip.trip_schedule.start_date %> - <%= trip.trip_schedule.end_date %></p>
+            <div class="divider"></div>
+            <p><%= trip.trip_schedule.description %></p>
+            <div class="divider"></div>
+            <p class="trip-tutor-title">Trip tutors:</p>
+            <ul>
+                <% trip.trip_tutors.forEach(function(tutor) { %>
+                <li><%= tutor.name %> <%= tutor.last_name %> (<%= tutor.contact_number %>)</li>
+                <% }); %>
+            </ul>
+            <p class="trip-school-title">Schools involved:</p>
+            <ul>
+                <% trip.schools.forEach(function(school) { %>
+                <li><%= school.name %>
+                    (<% school.classes.forEach(function(c, i) { %><%= c.name %><% if (i != school.classes.length - 1) { %>,
+                    <% }}); %>)</li>
+                <% }); %>
+            </ul>
+        </div>
+        <% }); %>
+        <div class="card" style="display: flex;">
+            <form style="display: flex; flex-direction: column;" action="/" id="add-form" method="POST">
+                <div class="title">
+                    <input name="title" type="text" class="trip-title" placeholder="Title">
+                    <input name="cost" type="text" style="width: 50px;" class="trip-cost" placeholder="Cost">
+                </div>
+                <input name="organizer" type="text" class="trip-organizer" placeholder="Organizer">
+                <div style="display: flex; flex-direction: row;">
+                    <input name="date_from" type="date" class="trip-date" placeholder="Start date">
+                    <input name="date_to" type="date" class="trip-date" placeholder="End date">
+                </div>
+                <input name="description" type="text" class="trip-description" placeholder="Description">
+                <label class="trip-tutor-title">Trip tutors:</label>
+                <select name="tutor">
+                    <% tutors.forEach(function(tutor) { %>
+                        <option value=<%= tutor.id %>><%= tutor.name %> <%= tutor.last_name %> (<%= tutor.contact_number %>)</option>
+                    <% }); %>
+                </select>
+                <label class="trip-school-title">Schools involved:</label>
+                <select name="school">
+                    <% schools.forEach(function(school) { %>
+                    <option value=<%= school.id %>><%= school.name %>
+                        (<% school.classes.forEach(function(c, i) { %><%= c.name %><% if (i != school.classes.length - 1) { %>, 
+                            <% }}); %>)</option>
+                    <% }); %>
+                </select>
+
+                <input type="submit" style="margin-top: 10px" value="Add">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

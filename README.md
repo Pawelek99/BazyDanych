@@ -7,5 +7,3 @@ Prosta aplikacja do obsługi bazy danych stworzonej na podstawie wytycznych:
 > - klasy biorące udział w wycieczce
 > - opiekunów wycieczki
 > - program wycieczki
-> 
-> ~ <cite>Bartosz Trybus</cite>

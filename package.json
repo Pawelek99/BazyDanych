@@ -1,0 +1,31 @@
+{
+  "name": "bazy-danych",
+  "version": "1.0.0",
+  "description": "Prosta aplikacja do obsługi bazy danych stworzonej na podstawie wytycznych:",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm:migration:generate": "npm run typeorm -- migration:generate -n",
+    "typeorm:migration:run": "npm run typeorm -- migration:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pawelek99/BazyDanych.git"
+  },
+  "author": "Paweł Chochura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pawelek99/BazyDanych/issues"
+  },
+  "homepage": "https://github.com/Pawelek99/BazyDanych#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.2",
+    "typeorm": "^0.2.24"
+  }
+}
